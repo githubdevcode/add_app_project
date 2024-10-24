@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.CompanyResponse;
+import com.example.demo.dto.request.CompanyRequest;
+import com.example.demo.dto.response.CompanyResponse;
+import com.example.demo.dto.response.VersionCompanyResponse2;
 import com.example.demo.entities.Application;
 import com.example.demo.entities.Company;
 import com.example.demo.repositories.ApplicationRepository;
 import com.example.demo.repositories.CompanyRepository;
-import com.example.demo.request.CompanyRequest;
+import com.example.demo.repositories.VersionCompanyRepository;
 
 @RestController
 @RequestMapping("/api")
@@ -28,13 +30,22 @@ public class MainController {
 	@Autowired
 	private CompanyRepository companyRepository;
 	
-    @GetMapping
+    @GetMapping("/company/list")
     public Iterable<Company> list() {
         System.out.println("Fnd all");
         return companyRepository.findAll();
     }
-
-    @PutMapping("/{id}")
+    
+    @Autowired
+    private VersionCompanyRepository versionCompanyRepository;
+    
+    @GetMapping("/versionCompany/list/all/distinct")
+    public Iterable<VersionCompanyResponse2> listAllDistinct() {
+    	System.out.println("Fnd all");
+    	return versionCompanyRepository.findAllWithAllDataDistinct();
+    }    
+    
+    @PutMapping("/company/update/{id}")
 	public ResponseEntity<?> update(@RequestBody CompanyRequest companyRequest, @PathVariable Long id) {
 		
 		Optional<Company> companyOptional = companyRepository.findById(id);
@@ -49,8 +60,8 @@ public class MainController {
 		return ResponseEntity.notFound().build();
 	}
     
-    @DeleteMapping("/{id}")
-	public ResponseEntity<?> update(@PathVariable Long id) {
+    @DeleteMapping("/company/delete/{id}")
+	public ResponseEntity<?> delete(@PathVariable Long id) {
 		companyRepository.deleteById(id);
 		return ResponseEntity.ok(new CompanyResponse(String.format("The company with id: %d was dropted", id)));
 	}
@@ -58,7 +69,7 @@ public class MainController {
     @Autowired
     private ApplicationRepository applicationRepository;
     
-    @PostMapping
+    @PostMapping("/company/create")
     public ResponseEntity<?> create(@RequestBody CompanyRequest companyRequest) {
     	
     	Optional<Application> applicationOptional = applicationRepository.findById(companyRequest.getAppId());

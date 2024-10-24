@@ -10,8 +10,10 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import com.example.demo.entities.Application;
 import com.example.demo.entities.Company;
 import com.example.demo.entities.Version;
+import com.example.demo.entities.VersionCompany;
 import com.example.demo.repositories.ApplicationRepository;
 import com.example.demo.repositories.CompanyRepository;
+import com.example.demo.repositories.VersionCompanyRepository;
 import com.example.demo.repositories.VersionRepository;
 
 @SpringBootApplication
@@ -28,6 +30,8 @@ public class AdaAppProjectApplication implements ApplicationRunner {
 	private ApplicationRepository applicationRepository;
 	@Autowired
 	private CompanyRepository companyRepository;
+	@Autowired
+	private VersionCompanyRepository versionCompanyRepository;
 	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -38,6 +42,8 @@ public class AdaAppProjectApplication implements ApplicationRunner {
 		applicationRepository.save(application);
 		Company company = new Company(1l, "EASS", "limitada", "A compnay for ", application);
 		companyRepository.save(company);
+		VersionCompany versionCompany = new VersionCompany(1l, company, version, "A version company test desc");
+		versionCompanyRepository.save(versionCompany);
 	}
 
 }
