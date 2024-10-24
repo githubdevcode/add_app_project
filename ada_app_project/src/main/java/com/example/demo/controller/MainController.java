@@ -45,7 +45,7 @@ public class MainController {
     	return versionCompanyRepository.findAllWithAllDataDistinct();
     }    
     
-    @PutMapping("/company/update/{id}")
+    @PutMapping("/company/{id}")
 	public ResponseEntity<?> update(@RequestBody CompanyRequest companyRequest, @PathVariable Long id) {
 		
 		Optional<Company> companyOptional = companyRepository.findById(id);
@@ -60,7 +60,7 @@ public class MainController {
 		return ResponseEntity.notFound().build();
 	}
     
-    @DeleteMapping("/company/delete/{id}")
+    @DeleteMapping("/company/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		companyRepository.deleteById(id);
 		return ResponseEntity.ok(new CompanyResponse(String.format("The company with id: %d was dropted", id)));
@@ -69,7 +69,7 @@ public class MainController {
     @Autowired
     private ApplicationRepository applicationRepository;
     
-    @PostMapping("/company/create")
+    @PostMapping("/company")
     public ResponseEntity<?> create(@RequestBody CompanyRequest companyRequest) {
     	
     	Optional<Application> applicationOptional = applicationRepository.findById(companyRequest.getAppId());

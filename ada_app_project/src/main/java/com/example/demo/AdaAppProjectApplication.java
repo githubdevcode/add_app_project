@@ -42,6 +42,8 @@ public class AdaAppProjectApplication implements ApplicationRunner {
 		applicationRepository.save(application);
 		Company company = new Company(1l, "EASS", "limitada", "A compnay for ", application);
 		companyRepository.save(company);
+		Company company2 = new Company(2l, "EASS2", "limitada", "A compnay for ", application);
+		companyRepository.save(company2);
 		VersionCompany versionCompany = new VersionCompany(1l, company, version, "A version company test desc");
 		versionCompanyRepository.save(versionCompany);
 	}
