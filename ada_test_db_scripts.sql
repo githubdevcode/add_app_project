@@ -166,7 +166,6 @@ BEGIN
 	CLOSE cur_tmp_llenar_campos;
     
 END$$
-
 DELIMITER ;
 
 CALL ada_test_db.insert_info();
